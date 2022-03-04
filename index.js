@@ -9,13 +9,14 @@ function downloadFile(id, name) {
 
 let pages = await fetch(pagesUrl).then(res => res.json());
 
-async function downloader() {
+async function downloader(name) {
   for (let i = 0; i < pages.length; i++) {
-    downloadFile(pages[i].objectId, i + 1);
+    downloadFile(pages[i].objectId, `${name} ${i + 1}`);
     await timer(1000);
   }
 }
 
 if (confirm(`This will download ${pages.length} files. Do you want to continue?`)) {
-  downloader();
+  let name = prompt("Name of part: ");
+  downloader(name);
 }
