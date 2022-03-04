@@ -9,8 +9,9 @@ function downloadFile(id, name) {
 
 let pages = await fetch(pagesUrl).then(res => res.json());
 
-async function downloader(name) {
-  for (let i = 0; i < pages.length; i++) {
+async function downloader(name, limit) {
+  limit = limit || pages.length;
+  for (let i = 0; i < limit; i++) {
     downloadFile(pages[i].objectId, `${name} ${i + 1}`);
     await timer(1000);
   }
@@ -18,5 +19,7 @@ async function downloader(name) {
 
 if (confirm(`This will download ${pages.length} files. Do you want to continue?`)) {
   let name = prompt("Name of part: ");
-  downloader(name);
+  let limit = prompt("Limit number of files (leave blank for no limit): ")
+  limit = parseInt(limit);
+  downloader(name, limit);
 }
